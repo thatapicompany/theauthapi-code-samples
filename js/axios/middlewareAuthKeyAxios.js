@@ -2,15 +2,14 @@ const express = require("express");
 const app = express();
 const axios = require("axios");
 
-const accessKey =
-  "live_access_tsUTXAb38F59y0uT5vXYh30ceVXSgHuyuxBjPWOqe3Gamu60bqPQ1Vrud7OoNo6Q";
+const accessKey = process.env.ACCESS_TOKEN;
 
 app.use(function async(req, res, next) {
   if (req.headers["x-api-key"]) {
     try {
       axios
         .get(
-          "https://staging-api.theauthapi.com/api-keys/auth/" +
+          "https://api.theauthapi.com/api-keys/auth/" +
             req.headers["x-api-key"],
           {
             headers: {
