@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const accessKey = [ACCESS_KEY]; //replace with your access key;
+const accessKey = process.env.ACCESS_TOKEN;
 
 async function createApiKey(apiKey) {
     try {
@@ -22,7 +22,7 @@ async function createApiKey(apiKey) {
 
 const myKey = {
     name: "Node sample API key",
-    projectId: [PROJECT_ID], //replace with your project id
+    projectId: process.env.PROJECT_ID,
 };
 
 (async () => {
