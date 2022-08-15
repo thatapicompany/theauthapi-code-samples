@@ -19,14 +19,21 @@ async function authApiKey(apiKey) {
         return response;
       })
       .catch(function (error) {
-        console.log(error);
+        //console.log("catch 1", error.response);
+        throw new Error(error.response.status);
       });
   } catch (error) {
-    console.log(error);
+    console.log("catch 2", error.response);
   }
 }
 
 (async () => {
-  const validateKey = await authApiKey(process.env.TEST_KEY);
-  console.log(validateKey.headers, validateKey.data);
+  authApiKey(process.env.TEST_KEY)
+    .then(function (response) {
+      console.log(response.headers, response.data);
+    })
+    .catch(function (error) {
+      console.error(error);
+      return null;
+    });
 })();
