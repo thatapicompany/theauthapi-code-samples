@@ -6,7 +6,7 @@ const accessKey = process.env.ACCESS_TOKEN;
 async function featchAllApiKeys() {
   try {
     const { data } = await axios.get(
-      "https://staging-api.theauthapi.com/api-keys",
+      "https://api.theauthapi.com/api-keys",
       {
         headers: {
           ContentType: "application/json",
