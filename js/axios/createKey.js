@@ -2,11 +2,13 @@ import axios from "axios";
 import "dotenv/config";
 
 const accessKey = process.env.ACCESS_TOKEN;
-
+const apiUrl = process.env.production
+  ? "https://api.theauthapi.com"
+  : process.env.TESTING_URL;
 async function createApiKey(apiKey) {
   try {
     return axios
-      .post("https://staging-api.theauthapi.com/api-keys", apiKey, {
+      .post(apiUrl + "/api-keys", apiKey, {
         headers: {
           ContentType: "application/json",
           "x-api-key": accessKey,

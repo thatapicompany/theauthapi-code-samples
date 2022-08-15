@@ -1,6 +1,9 @@
 require("dotenv").config();
 const TheAuthAPI = require("theauthapi").default;
-const theAuthAPI = new TheAuthAPI(process.env.ACCESS_TOKEN);
+const apiUrl = process.env.production
+  ? "https://api.theauthapi.com"
+  : process.env.TESTING_URL;
+const theAuthAPI = new TheAuthAPI(process.env.ACCESS_TOKEN, { host: apiUrl });
 
 theAuthAPI.apiKeys
   .getKeys()

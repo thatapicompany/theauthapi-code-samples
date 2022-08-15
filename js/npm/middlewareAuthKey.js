@@ -1,11 +1,11 @@
 const express = require("express");
 const app = express();
-//import TheAuthAPI from "theauthapi";
-const TheAuthAPI = require("theauthapi").default; //for older setups
-
-const theAuthAPI = new TheAuthAPI(
-  process.env.ACCESS_TOKEN
-);
+require("dotenv").config();
+const TheAuthAPI = require("theauthapi").default;
+const apiUrl = process.env.production
+  ? "https://api.theauthapi.com"
+  : process.env.TESTING_URL;
+const theAuthAPI = new TheAuthAPI(process.env.ACCESS_TOKEN, { host: apiUrl });
 
 app.use(function (req, res, next) {
   if (req.headers["x-api-key"]) {
@@ -24,7 +24,7 @@ app.use(function (req, res, next) {
       })
       .catch((err) => {
         console.log(err);
-        res.status(500).send({ message: "Error validating API key" });
+        res.status(401).send({ message: "Error validating API key" });
       });
   } else {
     res.status(401).send({
@@ -34,7 +34,7 @@ app.use(function (req, res, next) {
 });
 
 app.get("/", (req, res) => {
-  res.send("Hello World!");
+  res.send("success");
 });
 
 app.listen(3010);
