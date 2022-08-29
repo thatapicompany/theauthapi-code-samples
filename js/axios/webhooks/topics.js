@@ -5,7 +5,7 @@ const accessKey = process.env.ACCESS_TOKEN;
 const apiUrl = process.env.production
   ? "https://api.theauthapi.com"
   : process.env.TESTING_URL;
-async function getTopics(webhookData) {
+async function getTopics() {
   try {
     return axios
       .get(apiUrl + "/webhooks/topics", {
