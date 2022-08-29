@@ -6,10 +6,10 @@ const apiUrl = process.env.production
   ? "https://api.theauthapi.com"
   : process.env.TESTING_URL;
 
-async function featchAllApiKeys() {
+async function featchAWebhook() {
   try {
     return axios
-      .get(apiUrl + "/webhooks?" + process.env.PROJECT_ID, {
+      .get(apiUrl + "/webhooks/" + process.env.WEBHOOK_ID, {
         headers: {
           ContentType: "application/json",
           "x-api-key": accessKey,
@@ -27,6 +27,6 @@ async function featchAllApiKeys() {
 }
 
 (async () => {
-  const allKeys = await featchAllApiKeys();
-  console.log(allKeys.data);
+  const allHooks = await featchAWebhook();
+  console.log(allHooks.data);
 })();
