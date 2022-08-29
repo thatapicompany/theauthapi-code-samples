@@ -5,7 +5,7 @@ const accessKey = process.env.ACCESS_TOKEN;
 const apiUrl = process.env.production
   ? "https://api.theauthapi.com"
   : process.env.TESTING_URL;
-async function createWebhook(webhookData) {
+async function patchWebhook(webhookData) {
   try {
     return axios
       .patch(apiUrl + "/webhooks/" + process.env.WEBHOOK_ID, webhookData, {
@@ -29,6 +29,6 @@ const webhookData = {
   status: "paused", // can be "live" or "paused"
 };
 (async () => {
-  const createdWebhook = await createWebhook(webhookData);
-  console.log(createdWebhook.data, createdWebhook.headers);
+  const patchAWebhook = await patchWebhook(webhookData);
+  console.log(patchAWebhook.data, patchAWebhook.headers);
 })();
