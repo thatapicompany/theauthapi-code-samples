@@ -6,10 +6,10 @@ const apiUrl = process.env.production
   ? "https://api.theauthapi.com"
   : process.env.TESTING_URL;
 
-async function featchAllApiKeys() {
+async function featchAllApiKeys(filters) {
   try {
     return axios
-      .get(apiUrl + "/api-keys", {
+      .get(apiUrl + "/api-keys" + filters, {
         headers: {
           ContentType: "application/json",
           "x-api-key": accessKey,
@@ -25,8 +25,12 @@ async function featchAllApiKeys() {
     console.log(error);
   }
 }
+const filters = "";
+//const filters = "?isActive=false";
+//const filters = "?customAccountId=VALUE";
+//const filters = "?customUserId=VALUE";
 
 (async () => {
-  const allKeys = await featchAllApiKeys();
+  const allKeys = await featchAllApiKeys(filters);
   console.log(allKeys.data);
 })();
