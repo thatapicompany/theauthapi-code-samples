@@ -17,7 +17,7 @@ Add your own environment vars from https://app.theauthapi.com dashboard.
 
 Run the following commands
 
-```javascript
+```JavaScript
 cd js
 npm install
 
