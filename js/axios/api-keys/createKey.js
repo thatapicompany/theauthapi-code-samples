@@ -5,23 +5,23 @@ const accessKey = process.env.ACCESS_TOKEN;
 const apiUrl = process.env.production
   ? "https://api.theauthapi.com"
   : process.env.TESTING_URL;
+
 async function createApiKey(apiKey) {
   try {
-    return axios
+    const { data } = await axios
       .post(apiUrl + "/api-keys", apiKey, {
         headers: {
           ContentType: "application/json",
           "x-api-key": accessKey,
         },
-      })
-      .then(function (response) {
-        return response;
-      })
-      .catch(function (error) {
-        console.log(error);
       });
+    return data;
   } catch (error) {
-    // handle error
+    if (error.response) {
+      console.log(error.response.data);
+    } else {
+      // handle other errors
+    }
   }
 }
 
@@ -36,12 +36,12 @@ const myKey = {
   },
   expiry: "2022-09-01 00:00:00", // optional expiry date
   rateLimitConfigs: {
-    rateLimit: 600,
+    rateLimit: 120,
     rateLimitTtl: 60,
   },
 };
 
 (async () => {
   const createdKey = await createApiKey(myKey);
-  console.log(createdKey.data, createdKey.headers);
+  console.log(createdKey);
 })();
