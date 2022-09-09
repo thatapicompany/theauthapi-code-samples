@@ -5,27 +5,27 @@ const accessKey = process.env.ACCESS_TOKEN;
 const apiUrl = process.env.production
   ? "https://api.theauthapi.com"
   : process.env.TESTING_URL;
-async function deleteWebhook(hook) {
+
+async function deleteWebhook(webhookId) {
   try {
-    return axios
-      .delete(apiUrl + "/webhooks/" + hook, {
+    const { data } = await axios
+      .delete(`${apiUrl}/webhooks/${webhookId}`, {
         headers: {
           ContentType: "application/json",
           "x-api-key": accessKey,
         },
-      })
-      .then(function (response) {
-        return response;
-      })
-      .catch(function (error) {
-        console.log(error);
       });
+    return data;
   } catch (error) {
-    // handle error
+    if (error.response) {
+      console.log(error.response.data);
+    } else {
+      // handle other errors
+    }
   }
 }
 
 (async () => {
-  const deleteHook = await deleteWebhook(process.env.WEBHOOK_ID);
-  console.log(deleteHook.data, deleteHook.headers);
+  const deleted = await deleteWebhook(process.env.WEBHOOK_ID);
+  console.log('Webhook has been deleted?', deleted);
 })();
