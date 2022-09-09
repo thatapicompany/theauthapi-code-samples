@@ -8,7 +8,7 @@ const apiUrl = process.env.production
   ? "https://api.theauthapi.com"
   : process.env.TESTING_URL;
 
-app.use(function async(req, res, next) {
+app.use((req, res, next) => {
   if (req.headers["x-api-key"]) {
     try {
       axios
@@ -30,7 +30,21 @@ app.use(function async(req, res, next) {
           next();
         })
         .catch(function (error) {
-          res.status(401).send({ message: "Error validating API key" });
+          if (error.response) {
+            if (error.response.status === 404) {
+              // handle invalid key
+              res.status(401).send({ message: "Error validating API key" });
+            } else if (error.response.status === 429) {
+              // handle api key rate limit error
+              res.status(429).send({ message: "Too many requests try again later" });
+            } else {
+              // handle 401, 403 errors (these should not occur if you did setup your configs correctly
+            }
+          } else if (error.request) {
+            // request was never sent to theauthapi, handle request error here
+          } else {
+            // handle other errors
+          }
         });
     } catch (error) {
       res.status(401).send({ message: "Error validating API key" });
@@ -46,4 +60,4 @@ app.get("/", (req, res) => {
   res.send("success");
 });
 
-app.listen(3010);
+app.listen(3010, () => console.log('server started on http://localhost:3010'));
