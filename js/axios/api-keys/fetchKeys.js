@@ -38,7 +38,7 @@ const filters = "";
 //const filters = "?customUserId=VALUE";
 
 (async () => {
-  // get all keys
+  // fetch all keys
   const apiKeys = await fetchApiKeys(filters);
   console.log('All Keys', apiKeys);
 
@@ -48,10 +48,15 @@ const filters = "";
   }));
   console.log('Keys filtered using name', nameFilteredKeys);
 
-  // get keys with a specific name
-  const projectCustomUserIdKeys = await fetchApiKeys(getFiltersQuery({
-    projectId,
+  // fetch keys where customUserId is null
+  const customUserIdFilteredKey = await fetchApiKeys(getFiltersQuery({
     customUserId: null,
   }));
-  console.log('Keys filtered using projectId and customUserId', projectCustomUserIdKeys);
+  console.log('Keys filtered using customUserId', customUserIdFilteredKey);
+
+  // fetch inactive (revoked) keys
+  const inactiveKeys = await fetchApiKeys(getFiltersQuery({
+    isActive: false,
+  }));
+  console.log('Inactive (revoked) keys', inactiveKeys);
 })();
