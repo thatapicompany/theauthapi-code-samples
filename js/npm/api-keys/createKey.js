@@ -1,5 +1,4 @@
 require("dotenv").config();
-//import TheAuthAPI from "theauthapi";
 const TheAuthAPI = require("theauthapi").default; //for older setups
 
 const apiUrl = process.env.production
@@ -18,9 +17,9 @@ async function createApiKeySample() {
         featureFlagOne: true,
         featureFlagTwo: false,
       },
-      expiry: "2022-09-01 00:00:00", // optional expiry date
+      expiry: new Date("2023-09-01 00:00:00"), // optional expiry date
       rateLimitConfigs: {
-        rateLimit: 600,
+        rateLimit: 60,
         rateLimitTtl: 60,
       },
     });
@@ -29,4 +28,7 @@ async function createApiKeySample() {
     console.log("Couldn't make the key ", error);
   }
 }
-createApiKeySample();
+
+(async () => {
+  await createApiKeySample();
+})();
