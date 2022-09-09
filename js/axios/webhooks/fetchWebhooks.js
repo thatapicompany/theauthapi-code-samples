@@ -6,27 +6,26 @@ const apiUrl = process.env.production
   ? "https://api.theauthapi.com"
   : process.env.TESTING_URL;
 
-async function featchAllWebhooks() {
+async function fetchWebhooks(projectId) {
   try {
-    return axios
-      .get(apiUrl + "/webhooks?" + process.env.PROJECT_ID, {
+    const { data } = await axios
+      .get(`${apiUrl}/webhooks?projectId=${projectId}`, {
         headers: {
           ContentType: "application/json",
           "x-api-key": accessKey,
         },
-      })
-      .then(function (response) {
-        return response;
-      })
-      .catch(function (error) {
-        console.log(error);
       });
+    return data;
   } catch (error) {
-    console.log(error);
+    if (error.response) {
+      console.log(error.response.data);
+    } else {
+      // handle other errors
+    }
   }
 }
 
 (async () => {
-  const allHooks = await featchAllWebhooks();
-  console.log(allHooks.data);
+  const webhooks = await fetchWebhooks(process.env.PROJECT_ID);
+  console.log(webhooks);
 })();

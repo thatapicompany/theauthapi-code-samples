@@ -5,23 +5,23 @@ const accessKey = process.env.ACCESS_TOKEN;
 const apiUrl = process.env.production
   ? "https://api.theauthapi.com"
   : process.env.TESTING_URL;
+
 async function pingWebhook(webhookData) {
   try {
-    return axios
+    const { data } = await axios
       .post(apiUrl + "/webhooks/ping", webhookData, {
         headers: {
           ContentType: "application/json",
           "x-api-key": accessKey,
         },
-      })
-      .then(function (response) {
-        return response;
-      })
-      .catch(function (error) {
-        console.log(error);
       });
+    return data;
   } catch (error) {
-    // handle error
+    if (error.response) {
+      console.log(error.response.data);
+    } else {
+      // handle other errors
+    }
   }
 }
 
@@ -34,7 +34,8 @@ const webhookData = {
   },
   body: { a_random_number: "WEBHOOK-UID-" + Math.random() }, //any value you want to test
 };
+
 (async () => {
   const pingTest = await pingWebhook(webhookData);
-  console.log(pingTest.data, pingTest.headers);
+  console.log(pingTest);
 })();

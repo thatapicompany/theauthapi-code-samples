@@ -5,27 +5,27 @@ const accessKey = process.env.ACCESS_TOKEN;
 const apiUrl = process.env.production
   ? "https://api.theauthapi.com"
   : process.env.TESTING_URL;
+
 async function reactivateKey(apiKey) {
   try {
-    return axios
-      .patch(apiUrl + "/api-keys/" + apiKey + "/reactivate", {
+    const {data}  = await axios
+      .patch(`${apiUrl}/api-keys/${apiKey}/reactivate`, {},{
         headers: {
           ContentType: "application/json",
           "x-api-key": accessKey,
         },
-      })
-      .then(function (response) {
-        return response;
-      })
-      .catch(function (error) {
-        console.log(error);
       });
+    return data;
   } catch (error) {
-    // handle error
+    if (error.response) {
+      console.log(error.response.data);
+    } else {
+      // handle other error types
+    }
   }
 }
 
 (async () => {
-  const reactivateKeyResults = await reactivateKey(process.env.TEST_KEY);
-  console.log(reactivateKeyResults);
+  const reactivatedApiKey = await reactivateKey(process.env.TEST_KEY);
+  console.log(reactivatedApiKey);
 })();
