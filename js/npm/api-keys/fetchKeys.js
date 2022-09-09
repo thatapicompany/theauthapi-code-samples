@@ -19,10 +19,10 @@ async function fetchKeysSample() {
   console.log('Keys filtered using name', nameFilteredKeys);
 
   // fetch keys where customUserId is null
-  const projectCustomUserIdKeys = await theAuthAPI.apiKeys.getKeys({
+  const customUserIdFilteredKey = await theAuthAPI.apiKeys.getKeys({
     customUserId: null,
   })
-  console.log('Keys filtered using projectId and customUserId', projectCustomUserIdKeys);
+  console.log('Keys filtered using customUserId', customUserIdFilteredKey);
 
   // fetch inactive (revoked) keys
   const inactiveKeys = await theAuthAPI.apiKeys.getKeys({
