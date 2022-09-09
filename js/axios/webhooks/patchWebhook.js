@@ -5,23 +5,23 @@ const accessKey = process.env.ACCESS_TOKEN;
 const apiUrl = process.env.production
   ? "https://api.theauthapi.com"
   : process.env.TESTING_URL;
-async function patchWebhook(webhookData) {
+
+async function patchWebhook(webhookId, webhookData) {
   try {
-    return axios
-      .patch(apiUrl + "/webhooks/" + process.env.WEBHOOK_ID, webhookData, {
+    const { data } = await axios
+      .patch(`${apiUrl}/webhooks/${webhookId}`, webhookData, {
         headers: {
           ContentType: "application/json",
           "x-api-key": accessKey,
         },
       })
-      .then(function (response) {
-        return response;
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+      return data;
   } catch (error) {
-    // handle error
+    if (error.response) {
+      console.log(error.response.data);
+    } else {
+      // handle other errors
+    }
   }
 }
 
@@ -29,6 +29,6 @@ const webhookData = {
   status: "paused", // can be "live" or "paused"
 };
 (async () => {
-  const patchAWebhook = await patchWebhook(webhookData);
-  console.log(patchAWebhook.data, patchAWebhook.headers);
+  const updatedWebhook = await patchWebhook(process.env.WEBHOOK_ID, webhookData);
+  console.log(updatedWebhook);
 })();
