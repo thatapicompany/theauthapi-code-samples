@@ -1,20 +1,33 @@
 require("dotenv").config();
-//import TheAuthAPI from "theauthapi";
 const TheAuthAPI = require("theauthapi").default; //for older setups
+const ApiResponseError = require("theauthapi/dist/services/ApiRequest/ApiResponseError").default
+const ApiRequestError = require("theauthapi/dist/services/ApiRequest/ApiRequestError").default
+
 const apiUrl = process.env.production
   ? "https://api.theauthapi.com"
   : process.env.TESTING_URL;
 const theAuthAPI = new TheAuthAPI(process.env.ACCESS_TOKEN, { host: apiUrl });
 
-theAuthAPI.apiKeys
-  .isValidKey(process.env.TEST_KEY)
-  .then((isValidKey) => {
-    if (isValidKey) {
-      console.log(isValidKey);
+async function validateKeySample() {
+  try {
+    const isValid = await theAuthAPI.apiKeys.isValidKey(process.env.TEST_KEY);
+    if (isValid) {
+      console.log('The API key is valid');
     } else {
-      console.log("Invalid API key!");
+      console.log('The API key is invalid');
     }
-  })
-  .catch((error) => {
-    console.error(error);
-  });
+  } catch (error) {
+    console.log(error);
+    if (error instanceof ApiResponseError) {
+      // handle response error
+    } else if (error instanceof ApiRequestError) {
+      // handle network error
+    } else {
+      // handle unknown error
+    }
+  }
+}
+
+(async () => {
+  await validateKeySample();
+})();
