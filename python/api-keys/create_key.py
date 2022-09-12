@@ -19,7 +19,14 @@ def create_api_key(api_key):
 
 api_key = {
     "name": "sample python api key",
-    "projectId": 'REPLACE_WITH_YOUR_PROJECT_ID'
+    "projectId": 'e3fa0aca-ee40-4995-a74b-041f0e5a3daf',
+    "customUserId": "charef@theauthapi.com",
+    "customAccountId": "C11",
+    "expiry": "2023-09-01 00:00:00",
+    "rateLimitConfigs": {
+        "rateLimit": 33,
+        "rateLimitTtl": 120
+    }
 }
 
 created_key = create_api_key(api_key)
