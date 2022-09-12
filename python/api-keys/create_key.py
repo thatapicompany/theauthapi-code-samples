@@ -1,24 +1,25 @@
 import requests
+from requests.exceptions import HTTPError
 
 api_url = "https://api.theauthapi.com/api-keys"
-access_key = [ACCESS_KEY] #replace with your access key
+access_key = "REPLACE_WITH_YOUR_ACCESS_KEY"
 
 headers = {
-    "Content-Type": "application/json",
     "x-api-key": access_key,
 }
 
 def create_api_key(api_key):
     try:
         response = requests.post(api_url, json=api_key,  headers=headers)
+        response.raise_for_status()
         return response.json()
-    except error: 
+    except HTTPError as error: 
         # handle error
         print(error)
 
 api_key = {
     "name": "sample python api key",
-    "projectId": [PROJECT_ID] #replace with your project id
+    "projectId": 'REPLACE_WITH_YOUR_PROJECT_ID'
 }
 
 created_key = create_api_key(api_key)
