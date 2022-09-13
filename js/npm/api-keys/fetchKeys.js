@@ -13,7 +13,7 @@ async function fetchKeysSample() {
 
   // fetch keys with a specific name (1st one from the list returned previously)
   const nameFilteredKeys = await theAuthAPI.apiKeys.getKeys({
-    name: apiKeys[0].name,
+    name: apiKeys.length === 0 ? "YOUR_NAME_FILTER" : apiKeys[0].name,
   });
   console.log("Keys filtered using name", nameFilteredKeys);
 
