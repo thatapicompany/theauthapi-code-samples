@@ -8,13 +8,12 @@ const apiUrl = process.env.production
 
 async function deleteWebhook(webhookId) {
   try {
-    const { data } = await axios
-      .delete(`${apiUrl}/webhooks/${webhookId}`, {
-        headers: {
-          ContentType: "application/json",
-          "x-api-key": accessKey,
-        },
-      });
+    const { data } = await axios.delete(`${apiUrl}/webhooks/${webhookId}`, {
+      headers: {
+        ContentType: "application/json",
+        "x-api-key": accessKey,
+      },
+    });
     return data;
   } catch (error) {
     if (error.response) {
@@ -27,5 +26,5 @@ async function deleteWebhook(webhookId) {
 
 (async () => {
   const deleted = await deleteWebhook(process.env.WEBHOOK_ID);
-  console.log('Webhook has been deleted?', deleted);
+  console.log("Webhook has been deleted?", deleted);
 })();
