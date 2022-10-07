@@ -17,7 +17,7 @@ async function createApiKeySample() {
         featureFlagOne: true,
         featureFlagTwo: false,
       },
-      expiry: new Date("2023-09-01 00:00:00"), // optional expiry date
+      expiry: "2023-09-01 00:00:00", // optional expiry date
       rateLimitConfigs: {
         rateLimit: 60,
         rateLimitTtl: 60,
